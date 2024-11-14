@@ -24,15 +24,13 @@ public class OpenFile {
 	// file format: vertex1 vertex2
 	// builds the network in the memory
 	//
-	public void openPairsFile(String filename) {
+	public void openPairsFile(File file) {
 
 		String line;
-		System.out.println(filename);
-
 		String[] elements;
 
 		try {
-			FileInputStream fstream = new FileInputStream(filename);
+			FileInputStream fstream = new FileInputStream(file);
 			BufferedReader in = new BufferedReader(new InputStreamReader(fstream));
 			while ((line = in.readLine()) != null) {
 

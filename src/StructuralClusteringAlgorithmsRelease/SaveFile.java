@@ -9,6 +9,7 @@
 package StructuralClusteringAlgorithmsRelease;
 
 import java.io.*;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class SaveFile implements Constants{
@@ -25,14 +26,16 @@ public class SaveFile implements Constants{
 		// cluster1: vertex11, vertex12, vertex13
 		// cluster2: vertex21, vertex22, vertex23
 		// ...
-		public void clustResultsCommaDelimited(String filename, double eps, int mu, double modularity) {
+		public void clustResultsCommaDelimited(File folder, String filename, double eps, int mu, double modularity) {
 
 			int nonmembers = 0;
-			String outFile = filename + "__SCAN_clusters.txt";
+			File output = Paths.get(folder.toURI()).resolve(filename + "__SCAN_clusters.txt").toFile();
 			try {
 
+				output.createNewFile();
+
 				// BufferedWriter out = new BufferedWriter(new FileWriter(outFile));
-				BufferedWriter out = new BufferedWriter(new FileWriter(outFile, true));
+				BufferedWriter out = new BufferedWriter(new FileWriter(output, true));
 				out.write("\n\n---------- SCAN result ----------");
 				out.write("\n" + filename + ", epsilon=" + eps + ", mu=" + mu);
 

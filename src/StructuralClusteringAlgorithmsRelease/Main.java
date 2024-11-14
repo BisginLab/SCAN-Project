@@ -4,6 +4,8 @@
 
 package StructuralClusteringAlgorithmsRelease;
 
+import javax.swing.*;
+import java.io.File;
 import java.lang.*;
 import java.math.*;
 
@@ -11,22 +13,18 @@ public class Main implements Constants {
 
 	public static void main(String[] args) {
 		Main main = new Main();
-
-		if (args.length != 3) {
-			System.out.println("Three parameters are required:");
-			System.out.println("<filename without extension> <d=true/false> <w=true/false>");
-			return;
-		}
-
-		main.run(args);
+		GUI gui = new GUI(main);
 	}
 
 	public void run(String[] args) {
-		String filename = args[0];
+		//String filename = args[0];
 		boolean b_directed = false, b_weighted = false;
 
-		if (args[1].equals("d=true")) b_directed = true;
-		if (args[2].equals("w=true")) b_weighted = true;
+		if (args[0].equals("d=true")) b_directed = true;
+		if (args[1].equals("w=true")) b_weighted = true;
+
+		String input = args[2];
+		String output = args[3];
 
 		Network network = new Network(b_directed, b_weighted);
 		OpenFile openFile = new OpenFile(network);
@@ -34,7 +32,7 @@ public class Main implements Constants {
 		SCAN scan = new SCAN(network);
 		Evaluate evaluate = new Evaluate(network);
 
-		openFile.openPairsFile(filename + ".pairs");        // open file and load network
+		openFile.openPairsFile(new File(input));
 		network.setSimilarityFunction(COS);
 		network.calculateSimilarities();
 
@@ -61,7 +59,7 @@ public class Main implements Constants {
 			if (b_directed) modularity = evaluate.calculateDirectedModularity(NEWMAN_MOD);
 			else modularity = evaluate.calculateUndirectedModularity(NEWMAN_MOD);
 
-			saveFile.clustResultsCommaDelimited(filename + "_" + b_directed + "_" + b_weighted, eps, 2, modularity);
+			saveFile.clustResultsCommaDelimited( new File(output), "TEST_" + b_directed + "_" + b_weighted, eps, 2, modularity);
 		}
 	}
 }
