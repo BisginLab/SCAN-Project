@@ -14,21 +14,21 @@ package StructuralClusteringAlgorithmsRelease;
 
 import java.util.*;
 
-public class SCAN implements Constants{
+public class SCAN implements Constants {
 
 	private final Network net;
-	private final int direction;				// direction for cluster expansion
+	private final int direction;                // direction for cluster expansion
 	private double eps;
 	private int mu;
 
-	public SCAN(Network network){
-			this.net = network;
-			this.direction = BIDIRECTIONAL;
+	public SCAN(Network network) {
+		this.net = network;
+		this.direction = BIDIRECTIONAL;
 	}
 
-	public SCAN(Network network, int direction){
-			this.net = network;
-			this.direction = direction;
+	public SCAN(Network network, int direction) {
+		this.net = network;
+		this.direction = direction;
 	}
 
 	//
@@ -75,7 +75,7 @@ public class SCAN implements Constants{
 							}
 						}
 					}
-				// if vertex is core
+					// if vertex is core
 				} else {
 					vertex.setClusterId(NONMEMBER);
 				}

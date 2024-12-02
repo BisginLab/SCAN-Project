@@ -17,7 +17,6 @@ public class Main implements Constants {
 	}
 
 	public void run(String[] args) {
-		//String filename = args[0];
 		boolean b_directed = false, b_weighted = false;
 
 		if (args[0].equals("d=true")) b_directed = true;
@@ -59,7 +58,9 @@ public class Main implements Constants {
 			if (b_directed) modularity = evaluate.calculateDirectedModularity(NEWMAN_MOD);
 			else modularity = evaluate.calculateUndirectedModularity(NEWMAN_MOD);
 
-			saveFile.clustResultsCommaDelimited( new File(output), "TEST_" + b_directed + "_" + b_weighted, eps, 2, modularity);
+			saveFile.clustResultsCommaDelimited(new File(output), "OUTPUT_" + b_directed + "_" + b_weighted, eps, 2, modularity);
 		}
+
+		System.exit(1);
 	}
 }

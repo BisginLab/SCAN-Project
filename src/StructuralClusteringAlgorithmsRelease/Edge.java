@@ -12,15 +12,15 @@ public class Edge {
     private final String vertexA, vertexB;
     private double similarity;
 
-    public Edge( int id, String vertex1, String vertex2) {
-         this.id = id;
-         this.vertexA = vertex1;
-         this.vertexB = vertex2;
-         this.similarity = 0;
+    public Edge(int id, String vertex1, String vertex2) {
+        this.id = id;
+        this.vertexA = vertex1;
+        this.vertexB = vertex2;
+        this.similarity = 0;
     }
 
     public int getId() {
-	    return this.id;
+        return this.id;
     }
 
     public String getVertexA() {

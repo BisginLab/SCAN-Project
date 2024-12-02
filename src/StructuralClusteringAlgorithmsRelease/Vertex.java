@@ -12,31 +12,31 @@ import java.math.*;
 
 public class Vertex implements Constants {
 
-    private final String label;
-    private int clusterID;
-    private double IN_DegreeFactor, OUT_DegreeFactor;
+	private final String label;
+	private int clusterID;
+	private double IN_DegreeFactor, OUT_DegreeFactor;
 
 	// labels of neighbors and similarities with those neighbors
-    private final TreeMap<String, Double[]> neighborhood, neighborhoodIN, neighborhoodOUT;
+	private final TreeMap<String, Double[]> neighborhood, neighborhoodIN, neighborhoodOUT;
 
-    public Vertex(String label) {
-        this.label = label;
-        this.clusterID    = UNCLASSIFIED;
+	public Vertex(String label) {
+		this.label = label;
+		this.clusterID = UNCLASSIFIED;
 		this.neighborhood = new TreeMap<>();
 		this.neighborhoodIN = new TreeMap<>();
 		this.neighborhoodOUT = new TreeMap<>();
 		this.IN_DegreeFactor = 0.0;
 		this.OUT_DegreeFactor = 0.0;
-    }
+	}
 
-    public void addNeighbor(String neighbor, double weight) {
-        if (!neighborhood.containsKey(neighbor)) {
+	public void addNeighbor(String neighbor, double weight) {
+		if (!neighborhood.containsKey(neighbor)) {
 			Double[] ws = new Double[2];
 			ws[0] = weight;
-			ws[1] = 0.0;										// similarity=0 tentatively
-			neighborhood.put (neighbor, ws);
+			ws[1] = 0.0;                                        // similarity=0 tentatively
+			neighborhood.put(neighbor, ws);
 		}
-    }
+	}
 
 	public void addNeighbor(String neighbor, int direction, double weight) {
 
@@ -57,11 +57,11 @@ public class Vertex implements Constants {
 	}
 
 
-	public boolean isNeighbor(String neighbor){
+	public boolean isNeighbor(String neighbor) {
 		return neighborhood.containsKey(neighbor);
 	}
 
-	public boolean isNeighbor(String neighbor, int direction){
+	public boolean isNeighbor(String neighbor, int direction) {
 		return switch (direction) {
 			case IN -> neighborhoodIN.containsKey(neighbor);
 			case OUT -> neighborhoodOUT.containsKey(neighbor);
@@ -69,48 +69,50 @@ public class Vertex implements Constants {
 		};
 	}
 
-	public String getLabel(){
-			return label;
+	public String getLabel() {
+		return label;
 	}
 
-    public int getDegree(){
-			return neighborhood.size();
-	}
-	public int getInDegree(){
-			return neighborhoodIN.size();
-	}
-	public int getOutDegree(){
-			return neighborhoodOUT.size();
+	public int getDegree() {
+		return neighborhood.size();
 	}
 
-	public void setINDegreeFactor(double DegFactor){
-			this.IN_DegreeFactor = DegFactor;
+	public int getInDegree() {
+		return neighborhoodIN.size();
 	}
 
-	public void setOUTDegreeFactor(double DegFactor){
-			this.OUT_DegreeFactor = DegFactor;
+	public int getOutDegree() {
+		return neighborhoodOUT.size();
 	}
 
-	public double getOUTDegreeFactor(){
-			return OUT_DegreeFactor;
+	public void setINDegreeFactor(double DegFactor) {
+		this.IN_DegreeFactor = DegFactor;
 	}
 
-	public double getINDegreeFactor(){
-			return IN_DegreeFactor;
+	public void setOUTDegreeFactor(double DegFactor) {
+		this.OUT_DegreeFactor = DegFactor;
 	}
 
-    public int getClusterId() {
-			return clusterID;
-    }
-
-	public void setClusterId(int clusterId){
-			this.clusterID = clusterId;
+	public double getOUTDegreeFactor() {
+		return OUT_DegreeFactor;
 	}
 
-	public void setSimilarity(String toVertex, double similarity){
-			Double[] ws = neighborhood.get(toVertex);
-			ws[1] = similarity;
-			// neighborhood.get(toVertex) returns a pointer to Double class. Any updates will be immediately shown in treemap
+	public double getINDegreeFactor() {
+		return IN_DegreeFactor;
+	}
+
+	public int getClusterId() {
+		return clusterID;
+	}
+
+	public void setClusterId(int clusterId) {
+		this.clusterID = clusterId;
+	}
+
+	public void setSimilarity(String toVertex, double similarity) {
+		Double[] ws = neighborhood.get(toVertex);
+		ws[1] = similarity;
+		// neighborhood.get(toVertex) returns a pointer to Double class. Any updates will be immediately shown in treemap
 	}
 
 	public double getSimilarity(String toVertex) {
@@ -131,10 +133,10 @@ public class Vertex implements Constants {
 		return ws[0];
 	}
 
-    public Set<String> getNeighborhood(int direction) {
+	public Set<String> getNeighborhood(int direction) {
 		return switch (direction) {
 			case IN -> neighborhoodIN.keySet();
-			case OUT ->  neighborhoodOUT.keySet();
+			case OUT -> neighborhoodOUT.keySet();
 			default -> neighborhood.keySet();
 		};
 	}
@@ -143,14 +145,14 @@ public class Vertex implements Constants {
 		return neighborhood.keySet();
 	}
 
-	public double getEdgeFactor(String toVertex, int direction, int function){
+	public double getEdgeFactor(String toVertex, int direction, int function) {
 		// consider Aii entries of adjacency matrix A as 0
-		if (toVertex.equals(this.getLabel()) ) {
+		if (toVertex.equals(this.getLabel())) {
 			return 0.0;
 		}
 
 		return switch (function) {
-            case NEWMAN_WEIGHTED_MOD -> getWeight(toVertex, direction);
+			case NEWMAN_WEIGHTED_MOD -> getWeight(toVertex, direction);
 			case SIM_MOD -> getSimilarity(toVertex);
 			default -> 1.0;
 		};
@@ -180,21 +182,21 @@ public class Vertex implements Constants {
 		double vec_len2 = 0.0;
 		double sim;
 
-        for (String neighbor : neighborhood1) {
-            double weight1 = this.getWeight(neighbor, direction);
-            vec_len1 += (weight1 * weight1);
+		for (String neighbor : neighborhood1) {
+			double weight1 = this.getWeight(neighbor, direction);
+			vec_len1 += (weight1 * weight1);
 
-            // if the compared vertex has the same neighbor
-            if (toVertex.isNeighbor(neighbor, direction)) {
-                double weight2 = toVertex.getWeight(neighbor, direction);
-                dot_product += (weight1 * weight2);
-            }
-        }
+			// if the compared vertex has the same neighbor
+			if (toVertex.isNeighbor(neighbor, direction)) {
+				double weight2 = toVertex.getWeight(neighbor, direction);
+				dot_product += (weight1 * weight2);
+			}
+		}
 
-        for (String neighbor2 : neighborhood2) {
-            double weight2 = toVertex.getWeight(neighbor2, direction);
-            vec_len2 += (weight2 * weight2);
-        }
+		for (String neighbor2 : neighborhood2) {
+			double weight2 = toVertex.getWeight(neighbor2, direction);
+			vec_len2 += (weight2 * weight2);
+		}
 
 		vec_len1 = Math.sqrt(vec_len1);
 		vec_len2 = Math.sqrt(vec_len2);

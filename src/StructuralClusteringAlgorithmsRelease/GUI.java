@@ -6,10 +6,8 @@ import java.io.File;
 
 public class GUI extends JFrame {
 
-    private final JTextField inputFileField;
-    private final JTextField outputFolderField;
-    private final JCheckBox directedCheckBox;
-    private final JCheckBox weightedCheckBox;
+    private final JTextField inputFileField, outputFolderField;
+    private final JCheckBox directedCheckBox, weightedCheckBox;
 
     private final Main main;
 
@@ -17,9 +15,9 @@ public class GUI extends JFrame {
         this.main = main;
 
         setTitle("SCAN Program");
-        setSize(400, 200);
+        setSize(450, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(5, 2, 10, 10));
+        setLayout(new GridLayout(3, 3, 10, 20));
 
         // Input file selection
         add(new JLabel("Input .pairs file:"));
@@ -47,7 +45,10 @@ public class GUI extends JFrame {
 
         // Process button
         JButton processButton = new JButton("Process");
-        processButton.addActionListener(e -> processFiles());
+        processButton.addActionListener(e -> {
+            dispose();
+            processFiles();
+        });
         add(processButton);
 
         setVisible(true);
@@ -84,15 +85,15 @@ public class GUI extends JFrame {
         boolean isDirected = directedCheckBox.isSelected();
         boolean isWeighted = weightedCheckBox.isSelected();
 
+        // If the user didn't put in all input, give them the original window again.
         if (inputFile.isEmpty() || outputFolder.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please select both input file and output folder.");
+            setVisible(true);
             return;
         }
 
-        // Here you would add the logic to process the files
-        // For now, we'll just show a message with the selected options
-        String message = String.format("Processing:\nInput: %s\nOutput Folder: %s\nDirected: %b\nWeighted: %b",
-                inputFile, outputFolder, isDirected, isWeighted);
+        String message = String.format("Processing data!\nOutput will be located at: %s\n\nSettings:\nInput File: %s\nDirected: %b\nWeighted: %b",
+                outputFolder, inputFile, isDirected, isWeighted);
         JOptionPane.showMessageDialog(this, message);
 
         String[] parameters = new String[]{
@@ -102,6 +103,8 @@ public class GUI extends JFrame {
                 outputFolder
         };
 
+        // Had some threading issues preventing the program from closing. Disposing again may help?
+        dispose();
         main.run(parameters);
     }
 }

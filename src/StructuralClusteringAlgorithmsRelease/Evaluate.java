@@ -229,13 +229,13 @@ public class Evaluate implements Constants {
 
 
 			Set<String> neighbors = vertex.getNeighborhood();
-            for (String neighbor_s : neighbors) {
-                Vertex neighbor = net.getVertex(neighbor_s);
+			for (String neighbor_s : neighbors) {
+				Vertex neighbor = net.getVertex(neighbor_s);
 
-                if (vertexClust == neighbor.getClusterId()) {    // vertices that belong to the same cluster
-                    ls++;
-                }
-            }
+				if (vertexClust == neighbor.getClusterId()) {    // vertices that belong to the same cluster
+					ls++;
+				}
+			}
 			ds = neighbors.size();
 			vertexHomogeneity = (double) ls / ds;
 
@@ -248,9 +248,9 @@ public class Evaluate implements Constants {
 		} // while
 
 
-        for (int clusterId : clusterTotalHomogeneity.keySet()) {
-            homogeneity += clusterTotalHomogeneity.get(clusterId) / clusterTotalSize.get(clusterId);
-        }
+		for (int clusterId : clusterTotalHomogeneity.keySet()) {
+			homogeneity += clusterTotalHomogeneity.get(clusterId) / clusterTotalSize.get(clusterId);
+		}
 
 		homogeneity = homogeneity / clusterTotalHomogeneity.keySet().size();
 
@@ -412,15 +412,15 @@ public class Evaluate implements Constants {
 		double density = 0.0;
 		double weighted_density = 0.0;
 
-        for (int cluster : verticesWithinCluster.keySet()) {
-            TreeSet<String> vertices = (TreeSet) verticesWithinCluster.get(cluster);
-            int clusterSize = vertices.size();
-            //System.out.println("edges within cluster: " + edgesWithinCluster.get(cluster) + " vertices within cluster: " + clusterSize);
-            density = (double) edgesWithinCluster.get(cluster) / (clusterSize * (clusterSize - 1) / 2); // nominator: number of edges within the cluster
-            // denominator: possible number of edges
-            weighted_density += (double) density * clusterSize;
+		for (int cluster : verticesWithinCluster.keySet()) {
+			TreeSet<String> vertices = (TreeSet) verticesWithinCluster.get(cluster);
+			int clusterSize = vertices.size();
+			//System.out.println("edges within cluster: " + edgesWithinCluster.get(cluster) + " vertices within cluster: " + clusterSize);
+			density = (double) edgesWithinCluster.get(cluster) / (clusterSize * (clusterSize - 1) / 2); // nominator: number of edges within the cluster
+			// denominator: possible number of edges
+			weighted_density += (double) density * clusterSize;
 
-        }
+		}
 
 		// denominator: number of vertices
 		double weighted_average_density = weighted_density / net.getNumVertices();
@@ -447,10 +447,10 @@ public class Evaluate implements Constants {
 			Set<String> neighbors = vertex.getNeighborhood();
 			Set<String> neighbors_of_same_group = new HashSet();
 
-            for (String neighbor_s : neighbors) {
-                Vertex neighbor = net.getVertex(neighbor_s);
-                if (vertexClust == neighbor.getClusterId()) neighbors_of_same_group.add(neighbor.toString());
-            }
+			for (String neighbor_s : neighbors) {
+				Vertex neighbor = net.getVertex(neighbor_s);
+				if (vertexClust == neighbor.getClusterId()) neighbors_of_same_group.add(neighbor.toString());
+			}
 
 			Object[] neighbors_sg = neighbors_of_same_group.toArray();
 
